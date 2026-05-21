@@ -1,0 +1,12 @@
+@import 'tailwindcss' source(none);
+@source '../**/*.{js,ts,jsx,tsx}';
+
+@import 'tw-animate-css';
+
+.input {
+  @apply w-full px-4 py-2.5 rounded-lg border border-border bg-background focus:ring-2 focus:ring-primary;
+}
+
+.input-group label {
+  @apply block text-sm text-muted-foreground mb-1;
+}
