@@ -15,16 +15,16 @@ import {
   FileBarChart,
 } from "lucide-react";
 
-import RecomendacoesTecnicas from "./components/RecomendacoesTecnicas";
-import Login from "./components/Login";
-import Atendimento from "./components/Atendimento";
-import CadastroUsuario from "./components/CadastroUsuario";
-import CadastroProdutor from "./components/CadastroProdutor";
-import EmissaoDocumento from "./components/EmissaoDocumento";
-import CronogramaSemanalMelhorado from "./components/CronogramaSemanalMelhorado";
-import PainelAdmin from "./components/PainelAdmin";
-import HistoricoTrimestre from "./components/HistoricoTrimestre";
-import GerenciadorComunidades from "./components/GerenciadorComunidades";
+import RecomendacoesTecnicas from "./app/components/RecomendacoesTecnicas";
+import Login from "./app/components/Login";
+import Atendimento from "./app/components/Atendimento";
+import CadastroUsuario from "./app/components/CadastroUsuario";
+import CadastroProdutor from "./app/components/CadastroProdutor";
+import EmissaoDocumento from "./app/components/EmissaoDocumento";
+import CronogramaSemanalMelhorado from "./app/components/CronogramaSemanalMelhorado";
+import PainelAdmin from "./app/components/PainelAdmin";
+import HistoricoTrimestre from "./app/components/HistoricoTrimestre";
+import GerenciadorComunidades from "./app/components/GerenciadorComunidades";
 
 type Tela = "login" | "sistema";
 
@@ -62,10 +62,52 @@ interface Produtor {
   atividades?: string[];
   municipio?: string;
   comunidade?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
-function mostrarValor(valor: any) {
+interface Atendimento {
+  id?: string;
+  produtorId?: string;
+  produtorCpf?: string;
+  cpf?: string;
+  produtorNome?: string;
+  [key: string]: unknown;
+}
+
+interface ObservacaoTecnica {
+  id?: string;
+  produtorId?: string;
+  produtorCpf?: string;
+  cpf?: string;
+  produtorNome?: string;
+
+  titulo?: string;
+  descricao?: string;
+  observacao?: string;
+  texto?: string;
+
+  tecnicoResponsavel?: string;
+  tecnicoResponsavelNome?: string;
+  criadoPorNome?: string;
+
+  [key: string]: unknown;
+}
+
+interface DocumentoGerado {
+  id?: string;
+  produtorId?: string;
+  produtorCpf?: string;
+  cpf?: string;
+  produtorNome?: string;
+
+  tipoDocumento?: string;
+  geradoPorNome?: string;
+  dataGeracao?: string;
+
+  [key: string]: unknown;
+}
+
+function mostrarValor(valor: unknown) {
   if (valor === null || valor === undefined || valor === "") {
     return "Não informado";
   }
@@ -94,11 +136,13 @@ function HistoricoTecnico({
 }: {
   usuarioLogado: UsuarioLogado | null;
 }) {
-  const [produtores, setProdutores] = useState<Produtor[]>([]);
-
-  useEffect(() => {
-    setProdutores(JSON.parse(localStorage.getItem("produtores") || "[]"));
-  }, []);
+  const produtores = useMemo<Produtor[]>(() => {
+  try {
+    return JSON.parse(localStorage.getItem("produtores") || "[]");
+  } catch {
+    return [];
+  }
+}, []);
 
   const produtoresPermitidos = useMemo(() => {
     if (!usuarioLogado) return [];
@@ -250,6 +294,7 @@ function HistoricoTecnico({
                       {mostrarValor(produtor.atividades)}
                     </p>
                   </div>
+
                 </div>
               </div>
             ))}
@@ -261,24 +306,47 @@ function HistoricoTecnico({
 }
 
 function RelatorioGeralProdutor() {
-  const [produtores, setProdutores] = useState<Produtor[]>([]);
-  const [atendimentos, setAtendimentos] = useState<any[]>([]);
-  const [observacoes, setObservacoes] = useState<any[]>([]);
-  const [documentos, setDocumentos] = useState<any[]>([]);
-  const [produtorSelecionado, setProdutorSelecionado] =
+const produtores = useMemo<Produtor[]>(() => {
+  try {
+    return JSON.parse(
+      localStorage.getItem("produtores") || "[]"
+    );
+  } catch {
+    return [];
+  }
+}, []);
+
+const atendimentos = useMemo<Atendimento[]>(() => {
+  try {
+    return JSON.parse(
+      localStorage.getItem("atendimentos") || "[]"
+    );
+  } catch {
+    return [];
+  }
+}, []);
+
+const observacoes = useMemo<ObservacaoTecnica[]>(() => {
+  try {
+    return JSON.parse(
+      localStorage.getItem("recomendacoesTecnicas") || "[]"
+    );
+  } catch {
+    return [];
+  }
+}, []);
+
+const documentos = useMemo<DocumentoGerado[]>(() => {
+  try {
+    return JSON.parse(
+      localStorage.getItem("historicoDocumentos") || "[]"
+    );
+  } catch {
+    return [];
+  }
+}, []);
+const [produtorSelecionado, setProdutorSelecionado] =
     useState<Produtor | null>(null);
-
-  useEffect(() => {
-    setProdutores(JSON.parse(localStorage.getItem("produtores") || "[]"));
-    setAtendimentos(JSON.parse(localStorage.getItem("atendimentos") || "[]"));
-    setObservacoes(
-      JSON.parse(localStorage.getItem("recomendacoesTecnicas") || "[]"),
-    );
-    setDocumentos(
-      JSON.parse(localStorage.getItem("historicoDocumentos") || "[]"),
-    );
-  }, []);
-
   const atendimentosDoProdutor = atendimentos.filter(
     (item) =>
       item.produtorId === produtorSelecionado?.id ||
@@ -341,11 +409,12 @@ function RelatorioGeralProdutor() {
       </div>
 
       <div className="bg-card rounded-xl border border-border p-6 shadow-sm">
-        <label className="text-sm font-medium text-foreground">
+        <label className="text-sm font-medium text-foreground" htmlFor="produtorSelecionado">
           Selecione o produtor
         </label>
 
         <select
+        id="produtorSelecionado"
           className="w-full mt-2 px-4 py-2 rounded-lg border border-border bg-background text-foreground"
           value={produtorSelecionado?.id || ""}
           onChange={(e) => {
@@ -534,10 +603,35 @@ function RelatorioGeralProdutor() {
 }
 
 export default function App() {
-  const [telaAtual, setTelaAtual] = useState<Tela>("login");
-  const [activeTab, setActiveTab] = useState<Tab>("cadastro");
-  const [usuarioLogado, setUsuarioLogado] =
-    useState<UsuarioLogado | null>(null);
+const usuarioInicial = (() => {
+  try {
+    const usuario = localStorage.getItem("usuarioLogado");
+
+    if (!usuario) return null;
+
+    const dados = JSON.parse(usuario);
+
+    return {
+      id: dados.id,
+      nome: dados.nome,
+      email: dados.email,
+      tipo: (dados.tipo || "tecnico") as TipoUsuario,
+    };
+  } catch {
+    return null;
+  }
+})();
+
+const [usuarioLogado, setUsuarioLogado] =
+  useState<UsuarioLogado | null>(usuarioInicial);
+
+const [telaAtual, setTelaAtual] = useState<Tela>(
+  usuarioInicial ? "sistema" : "login"
+);
+
+const [activeTab, setActiveTab] = useState<Tab>(
+  usuarioInicial?.tipo === "adm" ? "painel" : "cadastro"
+);
 
   const [menuPerfilAberto, setMenuPerfilAberto] = useState(false);
   const [modalNovoUsuario, setModalNovoUsuario] = useState(false);
@@ -551,7 +645,9 @@ export default function App() {
     );
 
     const existeAdm = usuariosSalvos.some(
-      (u: any) => u.email === "brunoguilherme@gmail.com",
+      (u: {
+  email: string;
+}) => u.email === "brunoguilherme@gmail.com",
     );
 
     if (!existeAdm) {
@@ -567,24 +663,6 @@ export default function App() {
       localStorage.setItem(
         "usuarios",
         JSON.stringify([admPadrao, ...usuariosSalvos]),
-      );
-    }
-
-    const usuario = localStorage.getItem("usuarioLogado");
-
-    if (usuario) {
-      const dados = JSON.parse(usuario);
-
-      setUsuarioLogado({
-        id: dados.id,
-        nome: dados.nome,
-        email: dados.email,
-        tipo: (dados.tipo || "tecnico") as TipoUsuario,
-      });
-
-      setTelaAtual("sistema");
-      setActiveTab(
-        (dados.tipo || "tecnico") === "adm" ? "painel" : "cadastro",
       );
     }
   }, []);
@@ -634,7 +712,10 @@ export default function App() {
     const usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
 
     const usuario = usuarios.find(
-      (u: any) => u.email === email && u.senha === senha,
+      (u: {
+  email: string;
+  senha?: string;
+}) => u.email === email && u.senha === senha,
     );
 
     if (usuario) {

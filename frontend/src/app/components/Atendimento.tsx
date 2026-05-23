@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useMemo } from "react";
 import {
   Search,
   User,
@@ -27,13 +27,13 @@ interface Produtor {
   }[];
 }
 
-interface DadosAtendimento {
-  observacoes?: string;
-  diagnostico?: string;
-  recomendacoes?: string;
-  documentosGerados?: string[];
-  [key: string]: unknown;
-}
+type AtividadesAdicionais = {
+  agricultura: string[];
+  extrativismo: string[];
+  pastagem: string[];
+  pesca: string[];
+  pecuaria: string[];
+};
 
 interface AtendimentoItem {
   id: string;
@@ -49,7 +49,8 @@ interface AtendimentoItem {
   tecnicoResponsavel?: string;
 
   data: string;
-  dados: DadosAtendimento;
+  dados: AtendimentoData;
+  atividadesAdicionais?: AtividadesAdicionais;
 }
 
 interface ItemAgricultura {
@@ -90,6 +91,15 @@ interface ItemPiscicultura {
   pesoMedio: string;
   producaoEsperada: string;
   producaoObtida: string;
+}
+
+interface ItemPesca {
+  tipoSistema: string;
+  numeroPeixesEstocado: string;
+  especiesPeixes: string;
+  numeroInstalacoes: string;
+  areaAlagada: string;
+  producao: string;
 }
 
 interface ItemApicultura {
@@ -154,11 +164,19 @@ interface AtendimentoData {
   };
   piscicultura: ItemPiscicultura[];
   pesca: {
-    artesanal: unknown[];
-    manejada: unknown[];
-    comercial: unknown[];
-    subsistencia: unknown[];
+  barragem: ItemPesca[];
+  tanqueEscavado: ItemPesca[];
+  canalIgarape: ItemPesca[];
+  tanqueRede: ItemPesca[];
+  artesanalKg: {
+    especie: string;
+    kg: string;
   };
+  manejadaKg: {
+    especie: string;
+    kg: string;
+  };
+};
   apicultura: Record<ApiculturaKey, ItemApicultura[]>;
   extrativismo: Record<ExtrativismoKey, ItemExtrativismo[]>;
 }
@@ -393,12 +411,56 @@ export default function Atendimento() {
         producaoObtida: "",
       },
     ],
-    pesca: {
-      artesanal: [],
-      manejada: [],
-      comercial: [],
-      subsistencia: [],
+   pesca: {
+  barragem: [
+    {
+      tipoSistema: "Barragem",
+      numeroPeixesEstocado: "",
+      especiesPeixes: "",
+      numeroInstalacoes: "",
+      areaAlagada: "",
+      producao: "",
     },
+  ],
+  tanqueEscavado: [
+    {
+      tipoSistema: "Tanque Escavado",
+      numeroPeixesEstocado: "",
+      especiesPeixes: "",
+      numeroInstalacoes: "",
+      areaAlagada: "",
+      producao: "",
+    },
+  ],
+  canalIgarape: [
+    {
+      tipoSistema: "Canal de Igarapé",
+      numeroPeixesEstocado: "",
+      especiesPeixes: "",
+      numeroInstalacoes: "",
+      areaAlagada: "",
+      producao: "",
+    },
+  ],
+  tanqueRede: [
+    {
+      tipoSistema: "Tanque Rede",
+      numeroPeixesEstocado: "",
+      especiesPeixes: "",
+      numeroInstalacoes: "",
+      areaAlagada: "",
+      producao: "",
+    },
+  ],
+  artesanalKg: {
+    especie: "",
+    kg: "",
+  },
+  manejadaKg: {
+    especie: "",
+    kg: "",
+  },
+},
     apicultura: {
       apicultura: [
         {
@@ -467,26 +529,24 @@ export default function Atendimento() {
     },
   });
 
-  let produtores: Produtor[] = [];
+  const atividadesAdicionaisIniciais = {
+  agricultura: [],
+  extrativismo: [],
+  pastagem: [],
+  pesca: [],
+  pecuaria: [],
+};
 
+const produtores: Produtor[] = useMemo(() => {
   try {
-    produtores = JSON.parse(
-      localStorage.getItem("produtores") || "[]",
+    return JSON.parse(
+      localStorage.getItem("produtores") || "[]"
     );
   } catch (error) {
     console.error("Erro ao carregar produtores", error);
-    produtores = [];
+    return [];
   }
-  // Resetar atividades adicionais quando trocar de produtor
-  useEffect(() => {
-    setAtividadesAdicionais({
-      agricultura: [],
-      extrativismo: [],
-      pastagem: [],
-      pesca: [],
-      pecuaria: [],
-    });
-  }, [selectedProdutor?.id]);
+}, []);
 
   const componentRef = useRef<HTMLDivElement>(null);
 
@@ -605,13 +665,39 @@ export default function Atendimento() {
       titulo: "Culturas Industriais",
     },
   ];
-  const possuiPesca =
-    tiposSelecionados.includes("Pesca de Subsistência") ||
-    tiposSelecionados.includes("Pesca Artesanal") ||
-    tiposSelecionados.includes("Pesca Comercial") ||
-    atividadesAdicionais.pesca.includes("Pesca de Subsistência") ||
-    atividadesAdicionais.pesca.includes("Pesca Artesanal") ||
-    atividadesAdicionais.pesca.includes("Pesca Comercial");
+
+const possuiBarragem =
+  tiposSelecionados.includes("Barragem") ||
+  atividadesAdicionais.pesca.includes("Barragem");
+
+const possuiTanqueEscavado =
+  tiposSelecionados.includes("Tanque Escavado") ||
+  atividadesAdicionais.pesca.includes("Tanque Escavado");
+
+const possuiCanalIgarape =
+  tiposSelecionados.includes("Canal de Igarapé") ||
+  atividadesAdicionais.pesca.includes("Canal de Igarapé");
+
+const possuiTanqueRede =
+  tiposSelecionados.includes("Tanque Rede") ||
+  atividadesAdicionais.pesca.includes("Tanque Rede");
+
+const possuiPescaArtesanal =
+  tiposSelecionados.includes("Pesca Artesanal") ||
+  atividadesAdicionais.pesca.includes("Pesca Artesanal");
+
+const possuiPescaManejada =
+  tiposSelecionados.includes("Pesca Manejada") ||
+  atividadesAdicionais.pesca.includes("Pesca Manejada");
+
+const possuiPesca =
+  possuiBarragem ||
+  possuiTanqueEscavado ||
+  possuiCanalIgarape ||
+  possuiTanqueRede ||
+  possuiPescaArtesanal ||
+  possuiPescaManejada;
+
   const possuiPiscicultura =
     tiposSelecionados.includes("Piscicultura") || atividadesAdicionais.pesca.includes("Piscicultura");
   const possuiApicultura =
@@ -822,7 +908,10 @@ export default function Atendimento() {
                 return (
                   <button
                     key={produtor.id}
-                    onClick={() => setSelectedProdutor(produtor)}
+                    onClick={() => {
+  setSelectedProdutor(produtor);
+  setAtividadesAdicionais(atividadesAdicionaisIniciais);
+}}
                     className={`w-full p-4 text-left hover:bg-accent transition-colors ${
                       selectedProdutor?.id === produtor.id
                         ? "bg-accent"
@@ -2816,7 +2905,8 @@ export default function Atendimento() {
                 {(possuiMadeira ||
                   possuiNaoMadeireira ||
                   possuiExtrativismoVegetal ||
-                  possuiExtrativismoMineral) && (
+                  possuiExtrativismoMineral ||
+                   possuiExtrativismo ) && (
                   <div className="mt-6 bg-card border border-border rounded-2xl p-6 sm:p-8 shadow-sm space-y-8">
                     <div>
                       <h3 className="text-lg sm:text-xl font-semibold text-foreground">
@@ -2830,14 +2920,14 @@ export default function Atendimento() {
 
                     {configuracoesExtrativismo
                       .filter((item) => item.condicao)
-                      .map((tipoExtra) => {
+                      .map((tipoExtrativismo) => {
                         const lista = Array.isArray(
                           atendimentoData.extrativismo?.[
-                            tipoExtra.key
+                            tipoExtrativismo.key
                           ],
                         )
                           ? atendimentoData.extrativismo[
-                              tipoExtra.key
+                              tipoExtrativismo.key
                             ]
                           : [
                               {
@@ -2851,13 +2941,13 @@ export default function Atendimento() {
 
                         return (
                           <div
-                            key={tipoExtra.key}
+                            key={tipoExtrativismo.key}
                             className="rounded-2xl border border-border bg-muted/20 p-5 sm:p-6 space-y-6"
                           >
                             <div className="flex items-center justify-between gap-3">
                               <div>
                                 <h4 className="text-base sm:text-lg font-semibold text-foreground">
-                                  {tipoExtra.titulo}
+                                  {tipoExtrativismo.titulo}
                                 </h4>
                                 <p className="text-xs sm:text-sm text-muted-foreground mt-1">
                                   Adicione uma ou mais linhas de
@@ -2872,7 +2962,7 @@ export default function Atendimento() {
                                     ...atendimentoData,
                                     extrativismo: {
                                       ...atendimentoData.extrativismo,
-                                      [tipoExtra.key]: [
+                                      [tipoExtrativismo.key]: [
                                         ...lista,
                                         {
                                           produto: "",
@@ -2920,7 +3010,7 @@ export default function Atendimento() {
                                             ...atendimentoData,
                                             extrativismo: {
                                               ...atendimentoData.extrativismo,
-                                              [tipoExtra.key]:
+                                              [tipoExtrativismo.key]:
                                                 novaLista.length >
                                                 0
                                                   ? novaLista
@@ -2968,7 +3058,7 @@ export default function Atendimento() {
                                               ...atendimentoData,
                                               extrativismo: {
                                                 ...atendimentoData.extrativismo,
-                                                [tipoExtra.key]:
+                                                [tipoExtrativismo.key]:
                                                   novaLista,
                                               },
                                             });
@@ -2998,7 +3088,7 @@ export default function Atendimento() {
                                               ...atendimentoData,
                                               extrativismo: {
                                                 ...atendimentoData.extrativismo,
-                                                [tipoExtra.key]:
+                                                [tipoExtrativismo.key]:
                                                   novaLista,
                                               },
                                             });
@@ -3030,7 +3120,7 @@ export default function Atendimento() {
                                               ...atendimentoData,
                                               extrativismo: {
                                                 ...atendimentoData.extrativismo,
-                                                [tipoExtra.key]:
+                                                [tipoExtrativismo.key]:
                                                   novaLista,
                                               },
                                             });
@@ -3063,7 +3153,7 @@ export default function Atendimento() {
                                               ...atendimentoData,
                                               extrativismo: {
                                                 ...atendimentoData.extrativismo,
-                                                [tipoExtra.key]:
+                                                [tipoExtrativismo.key]:
                                                   novaLista,
                                               },
                                             });
@@ -3096,7 +3186,7 @@ export default function Atendimento() {
                                               ...atendimentoData,
                                               extrativismo: {
                                                 ...atendimentoData.extrativismo,
-                                                [tipoExtra.key]:
+                                                [tipoExtrativismo.key]:
                                                   novaLista,
                                               },
                                             });
@@ -3115,6 +3205,167 @@ export default function Atendimento() {
                       })}
                   </div>
                 )}
+               {possuiPesca && (
+  <div className="mt-6 bg-card border border-border rounded-2xl p-6 sm:p-8 shadow-sm space-y-8">
+    <div>
+      <h3 className="text-lg sm:text-xl font-semibold text-foreground">
+        Atendimento Técnico - Pesca
+      </h3>
+
+      <p className="text-sm text-muted-foreground mt-1">
+        Informe os dados das atividades de pesca
+      </p>
+    </div>
+
+    {possuiBarragem && (
+      <div className="rounded-2xl border border-border bg-muted/20 p-5 space-y-4">
+        <h4 className="font-semibold">
+          Barragem
+        </h4>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <input
+            type="text"
+            placeholder="Nº Peixe Estocado (mil)"
+            className="w-full px-4 py-2 rounded-xl border"
+          />
+
+          <input
+            type="text"
+            placeholder="Espécies de Peixes"
+            className="w-full px-4 py-2 rounded-xl border"
+          />
+
+          <input
+            type="text"
+            placeholder="Nº Instalações"
+            className="w-full px-4 py-2 rounded-xl border"
+          />
+
+          <input
+            type="text"
+            placeholder="Área Alagada/ha"
+            className="w-full px-4 py-2 rounded-xl border"
+          />
+
+          <input
+            type="text"
+            placeholder="Produção/Ton"
+            className="w-full px-4 py-2 rounded-xl border"
+          />
+        </div>
+      </div>
+    )}
+
+    {possuiTanqueEscavado && (
+      <div className="rounded-2xl border border-border bg-muted/20 p-5 space-y-4">
+        <h4 className="font-semibold">
+          Tanque Escavado
+        </h4>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <input
+            type="text"
+            placeholder="Nº Peixe Estocado (mil)"
+            className="w-full px-4 py-2 rounded-xl border"
+          />
+
+          <input
+            type="text"
+            placeholder="Espécies de Peixes"
+            className="w-full px-4 py-2 rounded-xl border"
+          />
+
+          <input
+            type="text"
+            placeholder="Nº Instalações"
+            className="w-full px-4 py-2 rounded-xl border"
+          />
+
+          <input
+            type="text"
+            placeholder="Área Alagada/ha"
+            className="w-full px-4 py-2 rounded-xl border"
+          />
+
+          <input
+            type="text"
+            placeholder="Produção/Ton"
+            className="w-full px-4 py-2 rounded-xl border"
+          />
+        </div>
+      </div>
+    )}
+
+    {possuiCanalIgarape && (
+      <div className="rounded-2xl border border-border bg-muted/20 p-5">
+        <h4 className="font-semibold">
+          Canal de Igarapé
+        </h4>
+      </div>
+    )}
+
+    {possuiTanqueRede && (
+      <div className="rounded-2xl border border-border bg-muted/20 p-5">
+        <h4 className="font-semibold">
+          Tanque Rede
+        </h4>
+      </div>
+    )}
+
+    {possuiPescaArtesanal && (
+      <div className="rounded-2xl border border-border bg-muted/20 p-5 space-y-4">
+        <h4 className="font-semibold">
+          Pesca Artesanal / KG
+        </h4>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          {[1, 2, 3, 4, 5].map((num) => (
+            <div key={num}>
+              <input
+                type="text"
+                placeholder={`Espécie ${num}`}
+                className="w-full px-4 py-2 rounded-xl border"
+              />
+
+              <input
+                type="text"
+                placeholder="KG"
+                className="w-full px-4 py-2 rounded-xl border"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {possuiPescaManejada && (
+      <div className="rounded-2xl border border-border bg-muted/20 p-5 space-y-4">
+        <h4 className="font-semibold">
+          Pesca Manejada / KG
+        </h4>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
+          {[1, 2, 3, 4].map((num) => (
+            <div key={num}>
+              <input
+                type="text"
+                placeholder={`Espécie ${num}`}
+                className="w-full px-4 py-2 rounded-xl border"
+              />
+
+              <input
+                type="text"
+                placeholder="KG"
+                className="w-full px-4 py-2 rounded-xl border"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+)}
                 {possuiPastagem && (
                   <div className="mt-6 bg-card border border-border rounded-2xl p-6 sm:p-8 shadow-sm space-y-8">
                     {/* Header */}
