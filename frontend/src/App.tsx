@@ -179,10 +179,7 @@ function HistoricoTecnico({
   return (
     <div className="space-y-6">
       <div
-        className="rounded-xl p-6 shadow-lg text-white"
-        style={{
-          background: 'linear-gradient(135deg, #ffa000 0%, #ffb300 50%, #ffc107 100%)'
-        }}
+        className="rounded-xl p-6 shadow-lg text-white bg-gradient-to-r from-amber-500 via-yellow-500 to-yellow-400"
       >
         <div className="flex items-center gap-3">
           <div className="bg-white/20 backdrop-blur-sm p-2.5 rounded-lg">
@@ -387,10 +384,7 @@ const [produtorSelecionado, setProdutorSelecionado] =
   return (
     <div className="space-y-6">
       <div
-        className="rounded-xl p-6 shadow-lg text-white"
-        style={{
-          background: 'linear-gradient(135deg, #1976d2 0%, #2196f3 50%, #42a5f5 100%)'
-        }}
+        className="rounded-xl p-6 shadow-lg text-white bg-gradient-to-r from-blue-700 via-blue-500 to-sky-400"
       >
         <div className="flex items-center gap-3">
           <div className="bg-white/20 backdrop-blur-sm p-2.5 rounded-lg">
@@ -774,10 +768,7 @@ const [activeTab, setActiveTab] = useState<Tab>(
   return (
     <div className="min-h-screen bg-background">
       <header
-        className="text-white shadow-lg"
-        style={{
-          background: 'linear-gradient(135deg, #2d6a3e 0%, #43a047 50%, #66bb6a 100%)'
-        }}
+        className="text-white shadow-lg bg-gradient-to-r from-green-800 via-green-600 to-green-400"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
