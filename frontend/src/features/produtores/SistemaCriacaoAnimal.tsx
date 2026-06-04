@@ -51,10 +51,12 @@ export function SistemaCriacaoAnimal({
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
-          <label className="mb-2 block text-sm font-medium text-foreground">
+          <label htmlFor="sistemaCriacao" className="mb-2 block text-sm font-medium text-foreground">
             Sistema de criação
           </label>
           <select
+            id="sistemaCriacao"
+            title="Sistema de criação"
             value={dados.sistemaCriacao || sistemaCriacao}
             onChange={(e) =>
               atualizar({ ...dados, sistemaCriacao: e.target.value })
@@ -69,13 +71,16 @@ export function SistemaCriacaoAnimal({
         </div>
 
         <div>
-          <label className="mb-2 block text-sm font-medium text-foreground">
+          <label htmlFor="quantidadeAvicultura" className="mb-2 block text-sm font-medium text-foreground">
             Quantidade em avicultura
           </label>
           <input
+            id="quantidadeAvicultura"
+            title="Quantidade em avicultura"
             type="number"
             value={dados.quantidade}
             onChange={(e) => atualizar({ ...dados, quantidade: e.target.value })}
+            placeholder="Informe a quantidade"
             className="w-full rounded-xl border border-border bg-background px-4 py-2.5"
           />
         </div>
@@ -141,10 +146,13 @@ export function SistemaCriacaoAnimal({
         </label>
 
         <div className="md:col-span-2">
-          <label className="mb-2 block text-sm font-medium text-foreground">
+          <label htmlFor="observacoesCriacao" className="mb-2 block text-sm font-medium text-foreground">
             Observações do sistema de criação
           </label>
           <textarea
+            id="observacoesCriacao"
+            title="Observações do sistema de criação"
+            placeholder="Adicione observações sobre o sistema"
             rows={3}
             value={dados.observacoes}
             onChange={(e) => atualizar({ ...dados, observacoes: e.target.value })}
