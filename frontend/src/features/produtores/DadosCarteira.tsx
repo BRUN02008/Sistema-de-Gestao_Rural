@@ -92,60 +92,75 @@ export function DadosCarteira({
       {possuiCarteira && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
-            <label className="mb-2 block text-sm font-medium text-foreground">
+            <label htmlFor="numeroCarteira" className="mb-2 block text-sm font-medium text-foreground">
               Número da carteira
             </label>
             <input
+              id="numeroCarteira"
+              title="Número da carteira"
               type="text"
               value={dadosCarteira.numero}
               onChange={(e) => atualizarCarteira("numero", e.target.value)}
+              placeholder="Digite o número da carteira"
               className="w-full rounded-lg border border-border bg-input-background px-4 py-2.5"
             />
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-foreground">
+            <label htmlFor="orgaoEmissor" className="mb-2 block text-sm font-medium text-foreground">
               Órgão emissor
             </label>
             <input
+              id="orgaoEmissor"
+              title="Órgão emissor"
               type="text"
               value={dadosCarteira.orgaoEmissor}
               onChange={(e) =>
                 atualizarCarteira("orgaoEmissor", e.target.value)
               }
+              placeholder="Digite o órgão emissor"
               className="w-full rounded-lg border border-border bg-input-background px-4 py-2.5"
             />
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-foreground">
+            <label htmlFor="emissaoCarteira" className="mb-2 block text-sm font-medium text-foreground">
               Data de emissão
             </label>
             <input
+              id="emissaoCarteira"
+              title="Data de emissão"
               type="date"
               value={dadosCarteira.emissao}
               onChange={(e) => atualizarCarteira("emissao", e.target.value)}
+              placeholder="Selecionar data de emissão"
               className="w-full rounded-lg border border-border bg-input-background px-4 py-2.5"
             />
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-foreground">
+            <label htmlFor="vencimentoCarteira" className="mb-2 block text-sm font-medium text-foreground">
               Data de vencimento
             </label>
             <input
+              id="vencimentoCarteira"
+              title="Data de vencimento"
               type="date"
               value={dadosCarteira.vencimento}
               onChange={(e) => atualizarCarteira("vencimento", e.target.value)}
+              placeholder="Selecionar data de vencimento"
               className="w-full rounded-lg border border-border bg-input-background px-4 py-2.5"
             />
           </div>
 
           <div className="md:col-span-2">
-            <label className="mb-2 block text-sm font-medium text-foreground">
+            <label htmlFor="observacoesCarteira" className="mb-2 block text-sm font-medium text-foreground">
               Observações da carteira
             </label>
             <textarea
+              id="observacoesCarteira"
+              title="Observações da carteira"
+              placeholder="Digite observações sobre a carteira"
               rows={3}
               value={dadosCarteira.observacoes}
               onChange={(e) => atualizarCarteira("observacoes", e.target.value)}

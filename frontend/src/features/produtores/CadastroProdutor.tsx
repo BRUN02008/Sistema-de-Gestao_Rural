@@ -12,6 +12,36 @@ import {
   type AbelhaItem,
 } from "./MeliponiculturaList";
 
+const progressWidthClasses = [
+  { max: 8, className: "w-[8%]" },
+  { max: 12, className: "w-[12%]" },
+  { max: 17, className: "w-[16%]" },
+  { max: 22, className: "w-[20%]" },
+  { max: 27, className: "w-[25%]" },
+  { max: 32, className: "w-[30%]" },
+  { max: 37, className: "w-[35%]" },
+  { max: 42, className: "w-[40%]" },
+  { max: 47, className: "w-[45%]" },
+  { max: 52, className: "w-[50%]" },
+  { max: 57, className: "w-[55%]" },
+  { max: 62, className: "w-[60%]" },
+  { max: 67, className: "w-[65%]" },
+  { max: 72, className: "w-[70%]" },
+  { max: 77, className: "w-[75%]" },
+  { max: 82, className: "w-[80%]" },
+  { max: 87, className: "w-[85%]" },
+  { max: 92, className: "w-[90%]" },
+  { max: 97, className: "w-[95%]" },
+  { max: 100, className: "w-[100%]" },
+] as const;
+
+function getProgressWidthClass(percentage: number) {
+  return (
+    progressWidthClasses.find((item) => percentage <= item.max)?.className ??
+    "w-[100%]"
+  );
+}
+
 interface CadastroProdutorFormData {
   cadastradoPorId?: string;
   cadastradoPorNome?: string;
@@ -1454,10 +1484,9 @@ export default function CadastroProdutor() {
 
         <div className="h-2 overflow-hidden rounded-full bg-[#e8e2d4]">
           <div
-            className="h-full rounded-full bg-[#e6c46a] transition-all"
-            style={{
-              width: `${Math.round((currentStep / totalSteps) * 100)}%`,
-            }}
+            className={`h-full rounded-full bg-[#e6c46a] transition-all ${getProgressWidthClass(
+              Math.round((currentStep / totalSteps) * 100),
+            )}`}
           />
         </div>
 
@@ -2343,7 +2372,7 @@ export default function CadastroProdutor() {
                           title="Mapa da localização"
                           width="100%"
                           height="300"
-                          style={{ border: 0 }}
+                          className="border-0"
                           loading="lazy"
                           allowFullScreen
                           src={`https://maps.google.com/maps?q=${formData.latitude},${formData.longitude}&z=15&output=embed`}
@@ -2358,12 +2387,14 @@ export default function CadastroProdutor() {
                   </div>
                 )}
                 <div>
-                  <label className="block text-foreground mb-2" id="comunidade">
+                  <label htmlFor="comunidade" className="block text-foreground mb-2">
                     Comunidade
                   </label>
                   <input
-                    aria-labelledby="comunidade"
+                    id="comunidade"
                     type="text"
+                    title="Comunidade"
+                    placeholder="Digite a comunidade"
                     value={formData.comunidade}
                     onChange={(e) =>
                       setFormData({
@@ -2468,11 +2499,14 @@ export default function CadastroProdutor() {
 
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-foreground">
+                    <label htmlFor="paa-perfil" className="mb-2 block text-sm font-medium text-foreground">
                       Perfil no PAA
                     </label>
                     <input
+                      id="paa-perfil"
                       type="text"
+                      title="Perfil no PAA"
+                      placeholder="Digite o perfil no PAA"
                       value={formData.paa?.perfil || ""}
                       onChange={(e) =>
                         setFormData({
@@ -2493,11 +2527,14 @@ export default function CadastroProdutor() {
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-foreground">
+                    <label htmlFor="paa-propriedade" className="mb-2 block text-sm font-medium text-foreground">
                       Dados da propriedade para PAA
                     </label>
                     <input
+                      id="paa-propriedade"
                       type="text"
+                      title="Dados da propriedade para PAA"
+                      placeholder="Digite os dados da propriedade"
                       value={formData.paa?.propriedade || ""}
                       onChange={(e) =>
                         setFormData({
@@ -2518,10 +2555,13 @@ export default function CadastroProdutor() {
                   </div>
 
                   <div className="md:col-span-2">
-                    <label className="mb-2 block text-sm font-medium text-foreground">
+                    <label htmlFor="paa-observacoes" className="mb-2 block text-sm font-medium text-foreground">
                       Observações do PAA
                     </label>
                     <textarea
+                      id="paa-observacoes"
+                      title="Observações do PAA"
+                      placeholder="Digite observações do PAA"
                       rows={3}
                       value={formData.paa?.observacoes || ""}
                       onChange={(e) =>

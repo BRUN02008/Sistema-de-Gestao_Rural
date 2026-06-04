@@ -105,10 +105,15 @@ export function CulturasAgricolasList({
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             <div>
-              <label className="mb-2 block text-sm font-medium text-foreground">
+              <label
+                htmlFor={`tipoCultura-${cultura.id}`}
+                className="mb-2 block text-sm font-medium text-foreground"
+              >
                 Tipo de cultura
               </label>
               <input
+                id={`tipoCultura-${cultura.id}`}
+                title="Tipo de cultura"
                 type="text"
                 value={cultura.tipoCultura}
                 onChange={(e) => atualizar(index, "tipoCultura", e.target.value)}
@@ -118,10 +123,15 @@ export function CulturasAgricolasList({
             </div>
 
             <div>
-              <label className="mb-2 block text-sm font-medium text-foreground">
+              <label
+                htmlFor={`subtipoAgricultura-${cultura.id}`}
+                className="mb-2 block text-sm font-medium text-foreground"
+              >
                 Subtipo de agricultura
               </label>
               <select
+                id={`subtipoAgricultura-${cultura.id}`}
+                title="Subtipo de agricultura"
                 value={cultura.subtipoAgricultura}
                 onChange={(e) =>
                   atualizar(index, "subtipoAgricultura", e.target.value)
@@ -136,10 +146,15 @@ export function CulturasAgricolasList({
             </div>
 
             <div>
-              <label className="mb-2 block text-sm font-medium text-foreground">
+              <label
+                htmlFor={`areaPlantada-${cultura.id}`}
+                className="mb-2 block text-sm font-medium text-foreground"
+              >
                 Área plantada (ha)
               </label>
               <input
+                id={`areaPlantada-${cultura.id}`}
+                title="Área plantada"
                 type="number"
                 step="0.01"
                 value={cultura.areaPlantada}
@@ -149,10 +164,15 @@ export function CulturasAgricolasList({
             </div>
 
             <div>
-              <label className="mb-2 block text-sm font-medium text-foreground">
+              <label
+                htmlFor={`areaColhida-${cultura.id}`}
+                className="mb-2 block text-sm font-medium text-foreground"
+              >
                 Área colhida (ha)
               </label>
               <input
+                id={`areaColhida-${cultura.id}`}
+                title="Área colhida"
                 type="number"
                 step="0.01"
                 value={cultura.areaColhida}
@@ -162,10 +182,15 @@ export function CulturasAgricolasList({
             </div>
 
             <div>
-              <label className="mb-2 block text-sm font-medium text-foreground">
+              <label
+                htmlFor={`quantidadeProduzida-${cultura.id}`}
+                className="mb-2 block text-sm font-medium text-foreground"
+              >
                 Quantidade produzida
               </label>
               <input
+                id={`quantidadeProduzida-${cultura.id}`}
+                title="Quantidade produzida"
                 type="number"
                 step="0.01"
                 value={cultura.quantidadeProduzida}
@@ -177,10 +202,15 @@ export function CulturasAgricolasList({
             </div>
 
             <div>
-              <label className="mb-2 block text-sm font-medium text-foreground">
+              <label
+                htmlFor={`unidadeMedida-${cultura.id}`}
+                className="mb-2 block text-sm font-medium text-foreground"
+              >
                 Unidade
               </label>
               <select
+                id={`unidadeMedida-${cultura.id}`}
+                title="Unidade de medida"
                 value={cultura.unidadeMedida}
                 onChange={(e) => atualizar(index, "unidadeMedida", e.target.value)}
                 className="w-full rounded-xl border border-border bg-background px-4 py-2.5"
@@ -194,10 +224,15 @@ export function CulturasAgricolasList({
             </div>
 
             <div>
-              <label className="mb-2 block text-sm font-medium text-foreground">
+              <label
+                htmlFor={`produtividadeEstimada-${cultura.id}`}
+                className="mb-2 block text-sm font-medium text-foreground"
+              >
                 Produção calculada
               </label>
               <input
+                id={`produtividadeEstimada-${cultura.id}`}
+                title="Produção calculada"
                 type="text"
                 value={
                   cultura.produtividadeEstimada
@@ -211,10 +246,16 @@ export function CulturasAgricolasList({
             </div>
 
             <div className="md:col-span-2">
-              <label className="mb-2 block text-sm font-medium text-foreground">
+              <label
+                htmlFor={`observacoes-${cultura.id}`}
+                className="mb-2 block text-sm font-medium text-foreground"
+              >
                 Observações
               </label>
               <textarea
+                id={`observacoes-${cultura.id}`}
+                title="Observações"
+                placeholder="Digite observações opcionais"
                 rows={3}
                 value={cultura.observacoes}
                 onChange={(e) => atualizar(index, "observacoes", e.target.value)}
