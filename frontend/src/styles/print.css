@@ -1,0 +1,144 @@
+@media print {
+  /* Esconder elementos da interface */
+  header,
+  nav,
+  aside,
+  .sidebar,
+  .menubar,
+  .menu,
+  button:not(.print-visible),
+  .no-print,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* Configurar página */
+@page {
+  size: A4 landscape;
+  margin: 8mm;
+}
+
+  /* Resetar cores de fundo */
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  /* Removido ajuste global de tamanho em html/body — usar container específico */
+
+  /* Evitar quebras de página indesejadas */
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+
+  table, figure, img {
+    page-break-inside: avoid;
+  }
+
+  /* Forçar impressão de cores de fundo */
+  *  {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Garantir que o cronograma ocupe A4 paisagem e mantenha cores */
+  .cronograma-semanal-print,
+  .cronograma-visitas-print {
+    width: 297mm;
+    min-height: 210mm;
+    background: white;
+    margin: 0 auto;
+    padding: 12mm;
+    box-shadow: none !important;
+    page-break-inside: avoid !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Classe para ocultar apenas na impressão (usada nos botões) */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Melhorar legibilidade */
+  p, li {
+    line-height: 1.4;
+  }
+
+  /* Garantir que bordas sejam impressas */
+  .border, .border-black, .border-gray-300, .border-gray-400 {
+    border-color: #000 !important;
+  }
+
+  /* Garantir que fundos cinza sejam impressos */
+  .bg-gray-50, .bg-gray-100, .bg-gray-200 {
+    background-color: #f3f4f6 !important;
+  }
+
+  /* Estilo para a declaração oficial */
+  .bg-primary {
+    background-color: #2d6a3e !important;
+  }
+
+  .text-primary {
+    color: #2d6a3e !important;
+  }
+
+  .border-primary {
+    border-color: #2d6a3e !important;
+  }
+
+  /* Cronograma - ajustar para caber na página */
+  table {
+    font-size: 9pt !important;
+    width: 100% !important;
+  }
+
+  table td, table th {
+    padding: 4px !important;
+  }
+
+  /* Garantir que cards de visita apareçam com cores */
+  [style*="background-color"] {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Mostrar elementos marcados para impressão */
+  .print\:block {
+    display: block !important;
+  }
+
+  .print\:p-6 {
+    padding: 1.5rem !important;
+  }
+
+  /* Evitar quebra dentro de cards de visita */
+  .print\:break-inside-avoid {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+}
+
+/* Estilos gerais para documentos */
+.documento-oficial {
+  font-family: 'Times New Roman', Times, serif;
+  line-height: 1.6;
+}
+
+.documento-oficial table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.documento-oficial th,
+.documento-oficial td {
+  border: 1px solid #000;
+  padding: 8px;
+  text-align: left;
+}
+
+.documento-oficial th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}

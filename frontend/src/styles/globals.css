@@ -1,0 +1,129 @@
+@layer components {
+  .idam-surface {
+    @apply rounded-xl border border-[#d7e0d7] bg-white shadow-sm;
+  }
+
+  .idam-section-header {
+    @apply border-b border-[#edf1ed] bg-[#f6faf6] px-4 py-3 sm:px-5;
+  }
+
+  .idam-section-title {
+    @apply text-base font-bold leading-tight text-[#12251c] sm:text-lg;
+  }
+
+  .idam-section-description {
+    @apply mt-1 text-sm leading-6 text-[#607368];
+  }
+
+  .idam-primary-button {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-[#184b36] px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-[#123d2d] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1b6b49] disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .idam-secondary-button {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-[#d7e0d7] bg-white px-4 py-2.5 text-sm font-bold text-[#184b36] transition hover:bg-[#edf6ed] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1b6b49] disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .idam-danger-button {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-bold text-red-700 transition hover:bg-red-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600;
+  }
+
+  .idam-badge {
+    @apply inline-flex items-center rounded-full bg-[#dff0e4] px-2.5 py-1 text-xs font-bold text-[#184b36];
+  }
+
+  .idam-table {
+    @apply w-full text-left text-sm;
+  }
+
+  .idam-table thead {
+    @apply bg-[#f6faf6] text-xs uppercase tracking-[0.08em] text-[#607368];
+  }
+
+  .idam-table th {
+    @apply px-4 py-3 font-bold;
+  }
+
+  .idam-table td {
+    @apply px-4 py-3;
+  }
+
+  .idam-table tbody {
+    @apply divide-y divide-[#edf1ed];
+  }
+
+  .idam-table tbody tr {
+    @apply transition hover:bg-[#f8fbf8];
+  }
+
+  .idam-form form > div[class*="bg-card"],
+  .idam-form form > div[class*="rounded-2xl"],
+  .idam-form > div[class*="bg-card"] {
+    border-color: #d7e0d7 !important;
+    background: #ffffff !important;
+    box-shadow: 0 1px 2px rgb(18 37 28 / 0.06) !important;
+    border-radius: 0.875rem !important;
+  }
+
+  .idam-form form > div[class*="bg-card"] > div:first-child,
+  .idam-form form > div[class*="rounded-2xl"] > div:first-child {
+    border-bottom: 1px solid #edf1ed;
+    background: linear-gradient(135deg, #ffffff 0%, #f6faf6 100%);
+  }
+
+  .idam-form label {
+    color: #263a31 !important;
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  .idam-form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+  .idam-form select,
+  .idam-form textarea,
+  .form-input {
+    width: 100%;
+    border: 1px solid #d7e0d7 !important;
+    border-radius: 0.625rem !important;
+    background: #fbfdfb !important;
+    color: #12251c !important;
+    transition:
+      border-color 160ms ease,
+      box-shadow 160ms ease,
+      background-color 160ms ease;
+  }
+
+  .idam-form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):focus,
+  .idam-form select:focus,
+  .idam-form textarea:focus,
+  .form-input:focus {
+    border-color: #1b6b49 !important;
+    background: #ffffff !important;
+    outline: none !important;
+    box-shadow: 0 0 0 4px rgb(27 107 73 / 0.14) !important;
+  }
+
+  .idam-form input::placeholder,
+  .idam-form textarea::placeholder {
+    color: #8a968f;
+  }
+
+  .idam-form input[type="checkbox"],
+  .idam-form input[type="radio"] {
+    accent-color: #184b36;
+  }
+
+  .responsive-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@layer utilities {
+  .hide-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}

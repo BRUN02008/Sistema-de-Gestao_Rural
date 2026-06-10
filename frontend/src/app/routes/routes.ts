@@ -1,0 +1,17 @@
+export const ROUTES = {
+  root: "/",
+  login: "/login",
+  app: "/app",
+  painel: "/app/painel",
+  relatorio: "/app/relatorio",
+  comunidades: "/app/comunidades",
+  atendimento: "/app/atendimento",
+  cadastro: "/app/cadastro",
+  veiculos: "/app/veiculos",
+  historico: "/app/historico",
+  trimestre: "/app/trimestre",
+  emissao: "/app/emissao",
+  cronograma: "/app/cronograma",
+  recomendacoes: "/app/recomendacoes",
+  sobre: "/app/sobre",
+} as const;

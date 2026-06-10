@@ -1,0 +1,256 @@
+﻿@import "tailwindcss";
+@import "tw-animate-css";
+
+@layer components {
+  html,
+  body,
+  #root {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .hide-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .input,
+  .form-input {
+    @apply block w-full px-4 py-2.5 rounded-lg border border-border bg-background focus:ring-2 focus:ring-primary;
+  }
+
+  .input-group label {
+    @apply block text-sm text-muted-foreground mb-1;
+  }
+
+  .idam-form form > div[class*="bg-card"],
+  .idam-form form > div[class*="rounded-2xl"],
+  .idam-form > div[class*="bg-card"] {
+    border-color: #d8d6c9 !important;
+    background: #fbfaf5 !important;
+    box-shadow: 0 1px 2px rgb(19 37 29 / 0.06) !important;
+    border-radius: 1rem !important;
+  }
+
+  .idam-form form > div[class*="bg-card"] > div:first-child,
+  .idam-form form > div[class*="rounded-2xl"] > div:first-child {
+    border-bottom: 1px solid #e7dfcf;
+    margin: -1.5rem -1.5rem 1.5rem;
+    padding: 1.25rem 1.5rem;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f2df 100%);
+  }
+
+  @media (min-width: 640px) {
+    .idam-form form > div[class*="bg-card"] > div:first-child,
+    .idam-form form > div[class*="rounded-2xl"] > div:first-child {
+      margin: -2rem -2rem 1.5rem;
+      padding: 1.25rem 2rem;
+    }
+  }
+
+  .idam-form h2,
+  .idam-form h3 {
+    color: #13251d;
+    line-height: 1.2;
+  }
+
+  .idam-form label {
+    display: block;
+    margin-bottom: 0.45rem;
+    color: #263a31 !important;
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  .idam-form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+  .idam-form select,
+  .idam-form textarea,
+  .form-input {
+    width: 100%;
+    border: 1px solid #d8d6c9 !important;
+    border-radius: 0.7rem !important;
+    background: #fffef9 !important;
+    color: #13251d !important;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.75);
+    transition:
+      border-color 160ms ease,
+      box-shadow 160ms ease,
+      background-color 160ms ease;
+  }
+
+  .idam-form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):focus,
+  .idam-form select:focus,
+  .idam-form textarea:focus,
+  .form-input:focus {
+    border-color: #173f31 !important;
+    background: #ffffff !important;
+    outline: none !important;
+    box-shadow: 0 0 0 4px rgb(230 196 106 / 0.26) !important;
+  }
+
+  .idam-form input::placeholder,
+  .idam-form textarea::placeholder {
+    color: #8a968f;
+  }
+
+  .idam-form input[type="checkbox"],
+  .idam-form input[type="radio"] {
+    accent-color: #173f31;
+  }
+
+  .idam-form button[type="button"],
+  .idam-form button[type="submit"] {
+    border-radius: 0.7rem;
+  }
+
+  .responsive-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  @media (max-width: 640px) {
+    .app-content {
+      min-width: 0;
+    }
+
+    .app-content > * {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .app-content [class*="xl:grid-cols"],
+    .app-content [class*="lg:grid-cols-[420px"],
+    .app-content [class*="lg:grid-cols-[320px"],
+    .app-content [class*="grid-cols-[420px"],
+    .app-content [class*="grid-cols-[320px"] {
+      grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .app-content [class*="rounded-[2rem]"] {
+      border-radius: 1rem !important;
+    }
+
+    .app-content [class*="p-6"] {
+      padding: 1rem !important;
+    }
+
+    .app-content [class*="gap-8"] {
+      gap: 1rem !important;
+    }
+
+    .app-content table {
+      min-width: 42rem;
+    }
+
+    .app-content [class*="overflow-auto"],
+    .app-content [class*="overflow-x-auto"] {
+      max-width: 100%;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .idam-form {
+      min-width: 0;
+    }
+
+    .idam-form * {
+      min-width: 0;
+    }
+
+    .idam-form form > div[class*="bg-card"],
+    .idam-form form > div[class*="rounded-2xl"],
+    .idam-form > div[class*="bg-card"] {
+      padding: 1rem !important;
+      border-radius: 0.875rem !important;
+    }
+
+    .idam-form form > div[class*="bg-card"] > div:first-child,
+    .idam-form form > div[class*="rounded-2xl"] > div:first-child {
+      margin: -1rem -1rem 1rem !important;
+      padding: 1rem !important;
+    }
+
+    .idam-form [class*="grid-cols-2"],
+    .idam-form [class*="grid-cols-3"],
+    .idam-form [class*="grid-cols-4"],
+    .idam-form [class*="grid-cols-5"],
+    .idam-form [class*="md:grid-cols"],
+    .idam-form [class*="lg:grid-cols"],
+    .idam-form [class*="xl:grid-cols"] {
+      grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .idam-form [class*="md:col-span"],
+    .idam-form [class*="lg:col-span"],
+    .idam-form [class*="xl:col-span"] {
+      grid-column: auto !important;
+    }
+
+    .idam-form [class*="p-8"] {
+      padding: 1rem !important;
+    }
+
+    .idam-form [class*="gap-8"] {
+      gap: 1rem !important;
+    }
+
+    .idam-form [class*="max-h-[600px]"] {
+      max-height: 22rem !important;
+    }
+
+    .idam-form .sticky {
+      bottom: 0.75rem !important;
+    }
+
+    .idam-form button,
+    .idam-form input,
+    .idam-form select,
+    .idam-form textarea {
+      max-width: 100%;
+    }
+
+    .idam-form table,
+    .idam-form .impressao-documento,
+    .idam-form [class*="max-h-[850px]"] {
+      min-width: 42rem;
+    }
+
+    .idam-form [class*="overflow-auto"],
+    .idam-form [class*="overflow-x-auto"],
+    .idam-form [class*="max-h-[850px]"] {
+      max-width: 100%;
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .idam-form form {
+      row-gap: 1rem;
+    }
+
+    .idam-form h2 {
+      font-size: 1.25rem;
+    }
+
+    .idam-form h3 {
+      font-size: 1.05rem;
+    }
+
+    .idam-form label {
+      font-size: 0.8125rem;
+    }
+
+    .idam-form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+    .idam-form select,
+    .idam-form textarea,
+    .form-input {
+      padding-left: 0.85rem;
+      padding-right: 0.85rem;
+    }
+  }
+}
