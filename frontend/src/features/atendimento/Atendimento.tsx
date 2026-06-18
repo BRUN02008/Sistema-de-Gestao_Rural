@@ -3220,7 +3220,7 @@ export default function Atendimento() {
                 <div className="overflow-auto border rounded-lg bg-gray-100 p-4">
                   <div ref={componentRef}>
                     <AtendimentoDocumento
-                      produtor={selectedProdutor.nome}
+                      produtor={selectedProdutor}
                       atendimento={ultimoAtendimentoSalvo.dados}
                       atividadesAdicionais={ultimoAtendimentoSalvo.atividadesAdicionais}
                       tecnicoResponsavel={

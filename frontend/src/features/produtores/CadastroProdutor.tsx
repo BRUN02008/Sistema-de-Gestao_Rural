@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ChevronRight, ChevronLeft, Search, Edit, X, Plus, User } from "lucide-react";
+import { ChevronRight, ChevronLeft, Search, Edit, X, Plus, User, Check } from "lucide-react";
 import { Badge } from "../../components/ui/badge";
 import {
   CulturasAgricolasList,

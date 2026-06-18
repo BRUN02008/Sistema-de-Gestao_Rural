@@ -1,7 +1,7 @@
 type AnyRecord = Record<string, any>;
 
 interface Props {
-  produtor: AnyRecord;
+  produtor: AnyRecord | string;
   atendimento: AnyRecord;
   atividadesAdicionais?: {
     agricultura: string[];
@@ -49,15 +49,17 @@ function objetoTemDados(obj: unknown): boolean {
   });
 }
 
-function produtorTemCategoria(produtor: AnyRecord, categoria: string) {
+function produtorTemCategoria(produtor: AnyRecord | string, categoria: string) {
+  if (!produtor || typeof produtor !== "object") return false;
   return (produtor.atividades || []).some(
     (a: AnyRecord) => a.categoria === categoria,
   );
 }
 
-function produtorTemSubtipo(produtor: AnyRecord, subtipo: string) {
+function produtorTemSubtipo(produtor: AnyRecord | string, subtipo: string) {
+  if (!produtor || typeof produtor !== "object") return false;
   const atividades = Array.isArray(produtor.atividades)
-    ? produtor.atividades as AnyRecord[]
+    ? (produtor.atividades as AnyRecord[])
     : [];
 
   return atividades.some((a: AnyRecord) =>
@@ -360,9 +362,12 @@ export default function AtendimentoDocumento({
   tecnicoResponsavel,
   data,
 }: Props) {
+  const produtorObj = typeof produtor === "object" && produtor !== null
+    ? (produtor as AnyRecord)
+    : { nome: typeof produtor === "string" ? produtor : undefined };
   // Função auxiliar para verificar se tem o subtipo no produtor OU nas atividades adicionais
   const temSubtipo = (subtipo: string, categoria?: string) => {
-    const temNoProdutorOriginal = produtorTemSubtipo(produtor, subtipo);
+    const temNoProdutorOriginal = produtorTemSubtipo(produtorObj, subtipo);
 
     if (!atividadesAdicionais) return temNoProdutorOriginal;
 
@@ -666,23 +671,23 @@ export default function AtendimentoDocumento({
         <h2 className="font-bold mb-3">1. IDENTIFICAÇÃO DO PRODUTOR</h2>
         <div className="grid grid-cols-2 gap-3 text-sm">
           <p>
-            <strong>Nome:</strong> {valor(produtor.nome)}
+            <strong>Nome:</strong> {valor(produtorObj.nome)}
           </p>
           <p>
-            <strong>CPF:</strong> {valor(produtor.cpf)}
+            <strong>CPF:</strong> {valor(produtorObj.cpf)}
           </p>
           <p>
-            <strong>Telefone:</strong> {valor(produtor.telefone)}
+            <strong>Telefone:</strong> {valor(produtorObj.telefone)}
           </p>
           <p>
-            <strong>Email:</strong> {valor(produtor.email)}
+            <strong>Email:</strong> {valor(produtorObj.email)}
           </p>
           <p className="col-span-2">
-            <strong>Endereço:</strong> {valor(produtor.logradouro)} -{" "}
-            {valor(produtor.municipio)} / {valor(produtor.uf)}
+            <strong>Endereço:</strong> {valor(produtorObj.logradouro)} -{" "}
+            {valor(produtorObj.municipio)} / {valor(produtorObj.uf)}
           </p>
           <p className="col-span-2">
-            <strong>Comunidade:</strong> {valor(produtor.comunidade)}
+            <strong>Comunidade:</strong> {valor(produtorObj.comunidade)}
           </p>
           <p className="col-span-2">
             <strong>Técnico Responsável:</strong>{" "}
