@@ -126,7 +126,17 @@ Crie `frontend/.env` se precisar apontar para outra API:
 VITE_API_URL=http://localhost:8000/api
 ```
 
-Quando nao informado, o frontend usa `http://localhost:8000/api`.
+Sem essa variavel, o frontend usa `http://localhost:8000/api` somente em
+desenvolvimento. Em producao, `VITE_API_URL` precisa apontar para a API pública,
+incluindo `/api`.
+
+## Deploy No Vercel
+
+O `vercel.json` da raiz configura a publicacao do frontend React/Vite. Importe o
+repositorio no Vercel usando a raiz do projeto como diretório raiz e defina
+`VITE_API_URL` com a URL publica da API Django, incluindo `/api`. O backend
+precisa estar hospedado separadamente e permitir, em `CORS_ALLOWED_ORIGINS`, o
+dominio do frontend no Vercel.
 
 ## Testes E Validacao
 

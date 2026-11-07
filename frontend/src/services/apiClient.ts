@@ -5,9 +5,19 @@ import {
   saveAccessToken,
 } from "./authStorage";
 
-export const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+export const API_BASE_URL = (
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.DEV ? "http://localhost:8000/api" : "")
+).replace(/\/+$/, "");
 export const SESSION_EXPIRED_EVENT = "idam:session-expired";
+
+function ensureApiConfigured() {
+  if (!API_BASE_URL) {
+    throw new ApiError(
+      "API nao configurada. Defina VITE_API_URL nas variaveis de ambiente do deploy.",
+    );
+  }
+}
 
 interface ApiRequestOptions extends RequestInit {
   authenticated?: boolean;
@@ -41,6 +51,7 @@ function getErrorMessage(data: any) {
 }
 
 async function refreshAccessToken() {
+  ensureApiConfigured();
   const refresh = getRefreshToken();
   if (!refresh) return null;
 
@@ -67,6 +78,7 @@ export async function apiRequest<T>(
   path: string,
   options: ApiRequestOptions = {},
 ): Promise<T> {
+  ensureApiConfigured();
   const {
     authenticated = true,
     retryOnUnauthorized = true,
