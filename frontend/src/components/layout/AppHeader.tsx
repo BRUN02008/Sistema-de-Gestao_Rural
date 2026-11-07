@@ -119,7 +119,7 @@ export function AppHeader({
               type="button"
               onClick={onTogglePerfil}
               className="idam-focus-ring flex items-center gap-2 rounded-xl border border-[#d7e0d7] bg-white px-2 py-1.5 text-left shadow-sm transition hover:bg-[#f6faf6] sm:px-3"
-              aria-expanded={menuPerfilAberto}
+              aria-expanded={menuPerfilAberto ? "true" : "false"}
               aria-haspopup="menu"
             >
               <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#dff0e4] text-sm font-bold text-[#184b36]">

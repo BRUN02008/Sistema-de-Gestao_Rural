@@ -18,6 +18,7 @@ import {
 } from "./cadastroProdutorConfig";
 import { CadastroProdutorProgress } from "./CadastroProdutorProgress";
 
+
 interface CadastroProdutorFormData {
   cadastradoPorId?: string;
   cadastradoPorNome?: string;
@@ -2289,7 +2290,7 @@ export default function CadastroProdutor() {
                           title="Mapa da localização"
                           width="100%"
                           height="300"
-                          style={{ border: 0 }}
+                          className="border-0"
                           loading="lazy"
                           allowFullScreen
                           src={`https://maps.google.com/maps?q=${formData.latitude},${formData.longitude}&z=15&output=embed`}
@@ -2304,12 +2305,14 @@ export default function CadastroProdutor() {
                   </div>
                 )}
                 <div>
-                  <label className="block text-foreground mb-2" id="comunidade">
+                  <label htmlFor="comunidade" className="block text-foreground mb-2">
                     Comunidade
                   </label>
                   <input
-                    aria-labelledby="comunidade"
+                    id="comunidade"
                     type="text"
+                    title="Comunidade"
+                    placeholder="Digite a comunidade"
                     value={formData.comunidade}
                     onChange={(e) =>
                       setFormData({
@@ -2375,6 +2378,129 @@ export default function CadastroProdutor() {
                     </label>
                   );
                 })}
+              </div>
+            </div>
+
+            <div className="bg-card rounded-xl border border-border p-6 sm:p-8 shadow-sm">
+              <div className="mb-6">
+                <h2 className="text-foreground text-lg font-semibold">
+                  PAA
+                </h2>
+                <p className="text-muted-foreground text-sm">
+                  Informações de perfil e propriedade vinculadas ao produtor
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <label className="flex items-center gap-3 rounded-lg border border-border bg-input-background p-3">
+                  <input
+                    type="checkbox"
+                    checked={formData.paa?.participa || false}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        paa: {
+                          ...(formData.paa || {
+                            perfil: "",
+                            propriedade: "",
+                            observacoes: "",
+                            participa: false,
+                          }),
+                          participa: e.target.checked,
+                        },
+                      })
+                    }
+                  />
+                  <span className="font-medium text-foreground">
+                    Participa ou pretende participar do PAA
+                  </span>
+                </label>
+
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <div>
+                    <label htmlFor="paa-perfil" className="mb-2 block text-sm font-medium text-foreground">
+                      Perfil no PAA
+                    </label>
+                    <input
+                      id="paa-perfil"
+                      type="text"
+                      title="Perfil no PAA"
+                      placeholder="Digite o perfil no PAA"
+                      value={formData.paa?.perfil || ""}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          paa: {
+                            ...(formData.paa || {
+                              participa: false,
+                              propriedade: "",
+                              observacoes: "",
+                              perfil: "",
+                            }),
+                            perfil: e.target.value,
+                          },
+                        })
+                      }
+                      className="w-full rounded-lg border border-border bg-input-background px-4 py-2.5"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="paa-propriedade" className="mb-2 block text-sm font-medium text-foreground">
+                      Dados da propriedade para PAA
+                    </label>
+                    <input
+                      id="paa-propriedade"
+                      type="text"
+                      title="Dados da propriedade para PAA"
+                      placeholder="Digite os dados da propriedade"
+                      value={formData.paa?.propriedade || ""}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          paa: {
+                            ...(formData.paa || {
+                              participa: false,
+                              perfil: "",
+                              observacoes: "",
+                              propriedade: "",
+                            }),
+                            propriedade: e.target.value,
+                          },
+                        })
+                      }
+                      className="w-full rounded-lg border border-border bg-input-background px-4 py-2.5"
+                    />
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <label htmlFor="paa-observacoes" className="mb-2 block text-sm font-medium text-foreground">
+                      Observações do PAA
+                    </label>
+                    <textarea
+                      id="paa-observacoes"
+                      title="Observações do PAA"
+                      placeholder="Digite observações do PAA"
+                      rows={3}
+                      value={formData.paa?.observacoes || ""}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          paa: {
+                            ...(formData.paa || {
+                              participa: false,
+                              perfil: "",
+                              propriedade: "",
+                              observacoes: "",
+                            }),
+                            observacoes: e.target.value,
+                          },
+                        })
+                      }
+                      className="w-full resize-none rounded-lg border border-border bg-input-background px-4 py-2.5"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 

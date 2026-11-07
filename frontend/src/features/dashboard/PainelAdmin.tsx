@@ -72,6 +72,37 @@ function toChartItems(counts: Record<string, number>, limit = 5): ChartItem[] {
     .slice(0, limit);
 }
 
+
+const progressWidthClasses = [
+  { max: 8, className: "w-[8%]" },
+  { max: 12, className: "w-[10%]" },
+  { max: 17, className: "w-[15%]" },
+  { max: 22, className: "w-[20%]" },
+  { max: 27, className: "w-[25%]" },
+  { max: 32, className: "w-[30%]" },
+  { max: 37, className: "w-[35%]" },
+  { max: 42, className: "w-[40%]" },
+  { max: 47, className: "w-[45%]" },
+  { max: 52, className: "w-[50%]" },
+  { max: 57, className: "w-[55%]" },
+  { max: 62, className: "w-[60%]" },
+  { max: 67, className: "w-[65%]" },
+  { max: 72, className: "w-[70%]" },
+  { max: 77, className: "w-[75%]" },
+  { max: 82, className: "w-[80%]" },
+  { max: 87, className: "w-[85%]" },
+  { max: 92, className: "w-[90%]" },
+  { max: 97, className: "w-[95%]" },
+  { max: 100, className: "w-[100%]" },
+] as const;
+
+function getProgressWidthClass(percentage: number) {
+  return (
+    progressWidthClasses.find((item) => percentage <= item.max)?.className ??
+    "w-[100%]"
+  );
+}
+
 function BarList({
   title,
   items,
@@ -106,8 +137,9 @@ function BarList({
               </div>
               <div className="h-2.5 overflow-hidden rounded-full bg-[#edf3ed]">
                 <div
-                  className="h-full rounded-full bg-[#1b6b49]"
-                  style={{ width: `${Math.max((item.value / max) * 100, 8)}%` }}
+                  className={`h-full rounded-full bg-[#1b6b49] ${getProgressWidthClass(
+                    Math.max((item.value / max) * 100, 8),
+                  )}`}
                 />
               </div>
             </div>

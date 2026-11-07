@@ -64,10 +64,15 @@ export function MeliponiculturaList({
 
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
             <div>
-              <label className="mb-2 block text-sm font-medium text-foreground">
+              <label
+                htmlFor={`tipo-abelha-${index}`}
+                className="mb-2 block text-sm font-medium text-foreground"
+              >
                 Tipo de abelha
               </label>
               <select
+                id={`tipo-abelha-${index}`}
+                title="Tipo de abelha"
                 value={abelha.tipo}
                 onChange={(e) => {
                   const especie = ESPECIES_ABELHA.find(
@@ -93,10 +98,15 @@ export function MeliponiculturaList({
             </div>
 
             <div>
-              <label className="mb-2 block text-sm font-medium text-foreground">
+              <label
+                htmlFor={`nomecientifico-${index}`}
+                className="mb-2 block text-sm font-medium text-foreground"
+              >
                 Nome científico
               </label>
               <input
+                id={`nomecientifico-${index}`}
+                title="Nome científico"
                 type="text"
                 value={abelha.nomecientifico}
                 onChange={(e) =>
@@ -105,6 +115,7 @@ export function MeliponiculturaList({
                     nomecientifico: e.target.value,
                   })
                 }
+                placeholder="Digite o nome científico"
                 className="w-full rounded-xl border border-border bg-background px-4 py-2.5"
               />
             </div>
@@ -116,10 +127,15 @@ export function MeliponiculturaList({
               ["producaoPropolis", "Produção de própolis (kg)"],
             ].map(([campo, label]) => (
               <div key={campo}>
-                <label className="mb-2 block text-sm font-medium text-foreground">
+                <label
+                  htmlFor={`${campo}-${index}`}
+                  className="mb-2 block text-sm font-medium text-foreground"
+                >
                   {label}
                 </label>
                 <input
+                  id={`${campo}-${index}`}
+                  title={label}
                   type="number"
                   value={abelha[campo as keyof AbelhaItem]}
                   onChange={(e) =>
@@ -128,6 +144,7 @@ export function MeliponiculturaList({
                       [campo]: e.target.value,
                     })
                   }
+                  placeholder={`Digite ${label.toLowerCase()}`}
                   className="w-full rounded-xl border border-border bg-background px-4 py-2.5"
                 />
               </div>
